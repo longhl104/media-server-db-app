@@ -1,0 +1,100 @@
+{% include 'top.html' %}
+<style> .heading_text
+  {
+    font-family:    Arial, Helvetica, sans-serif;
+    font-size:      18px;
+    font-weight:    bold;
+    color:          SlateBlue;
+  }
+</style>
+
+<style> .description_text
+  {
+    font-family:    Arial, Helvetica, sans-serif;
+    font-size:      15px;
+    font-weight:    300;
+    color:          black;
+  }
+</style>
+
+<style> .random_text
+  {
+    font-family:    Arial, Helvetica, sans-serif;
+    font-size:      8px;
+    font-weight:    300;
+    color:          black;
+  }
+</style>
+
+<style> .genre_text
+  {
+    font-family:    Arial, Helvetica, sans-serif;
+    font-size:      12px;
+    font-weight:    300;
+    color:          black;
+  }
+</style>
+
+    <div class="content">
+        <h1 class="title">Search Movies</h1>
+
+        <!-- Query 10
+            Search for Movies
+            You need two sections
+            First is a form to take in input
+            Second is a table to display reults
+         -->
+         <form class="Search" method="POST" action="{{url_for('search_movies')}}">
+            <input type="text" name="searchterm" placeholder="Movie" autofocus required>
+            <button class="flat" type="submit">Search</button>
+        </form>
+        {% if movies | length > 0 %}
+              <h2 style = "margin-left: 6em" class = "title">Titles</h2>
+              <table class="styled">
+                <tbody
+
+                  {% for instance in movies %}
+                    <!-- each row is a link to each individual media page-->
+                      <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                        <td style="text-align: left" size="20">{{ instance.movie_id }}</td>
+                        <td><img src = {{instance.artwork}} width = "75" height = "100"></img></td>
+                        <td class="heading_text" style="text-align: left">{{instance.movie_title}} ({{instance.release_year}})
+                        <div class="description_text"> {{instance.md_value}}</div>
+                        <div class="random_text">-</div>
+                        <div class="genre_text"> Genres: {{instance.genre}}</div>
+                        </td>
+
+                        </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+                <!-- All Movies -->
+                <!--<table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Movie ID</td>
+                            <td>Movie Title</td>
+                            <td>Movie Release Year</td>
+                            <td>Movie Data Value</td>
+                            <td>Movie Type</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in movies %}
+                            <!-- Each row is a link to each individual tvshow page -->
+                            <!--<tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                                <td style="text-align: center">{{ instance.movie_id }}</td>
+                                <td>{{instance.movie_title}}</td>
+                                <td>{{instance.release_year}}</td>
+                                <td>{{instance.md_value}}</td>
+                                <td>{{instance.md_type_name}}</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>-->
+            {% endif %}
+    </div>
+{% include 'bottom.html'%}

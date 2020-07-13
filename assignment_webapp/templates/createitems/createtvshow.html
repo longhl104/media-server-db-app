@@ -1,0 +1,29 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <h2 class="title"> Add TV Show </h2>
+
+        <form class="Add" method="POST" action="{{url_for('add_tvshow')}}">
+
+            TV show title: <input type="text" name="tvshow_title" value="Empty TV show" placeholder="TV show name">
+            <br/>
+            Description: <input type="text" name="description" value="no description" placeholder="Description">
+            <br/>
+            TV show Genre: <input type="text" name="tvshow_genre" value="drama" placeholder="drama">
+            Artwork: <input type="text" name="artwork" value="notfound.png" placeholder="notfound.png">
+            <br/>
+            <button class="flat" type="submit">Add</button>
+            <br/>
+            <hr/>
+            <hr/>
+            <hr/>
+            
+
+        </form>
+        <br/>
+        <div>
+
+    </div>
+</div>
+{% include 'bottom.html'%}

@@ -1,0 +1,35 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <h2 class="title"> Add Artist </h2>
+
+        <!-- Artist Schema
+            CREATE TABLE Artist (
+                artist_name VARCHAR(100),
+                artist_id SERIAL PRIMARY KEY
+            );
+            Associated Meta data
+                - description (4)
+                - artwork (3)
+        -->
+        <form class="Add" method="POST" action="{{url_for('add_artist')}}">
+
+            Artist name: <input type="text" name="artist_name" value="0" placeholder="Artist name">
+            <br/>
+            Description: <input type="text" name="description" value="description" placeholder="Description">
+            <br/>
+            Artwork: <input type="text" name="artwork" value="notfound.png" placeholder="notfound.png">
+
+            <button class="flat" type="submit">Add</button>
+            <br/>
+            <hr/>
+            <hr/>
+            <hr/>
+
+        <br/>
+        <div>
+
+    </div>
+</div>
+{% include 'bottom.html'%}

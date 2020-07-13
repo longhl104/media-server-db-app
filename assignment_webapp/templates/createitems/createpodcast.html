@@ -1,0 +1,43 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <h2 class="title"> Add Podcast </h2>
+
+        <!-- Podcast Schema
+            CREATE TABLE Podcast (
+                podcast_id SERIAL PRIMARY KEY,
+                podcast_title VARCHAR(250),
+                podcast_uri text,
+                podcast_last_updated DATE
+            );
+            Podcast Meta data Schema
+                CREATE TABLE PodcastMetaData (
+                podcast_id INTEGER REFERENCES Podcast(podcast_id),
+                md_id BIGINT REFERENCES MetaData(md_id),
+                PRIMARY KEY (podcast_id,md_id)
+);
+        -->
+        <form class="Add" method="POST" action="{{url_for('add_podcast')}}">
+
+            Podcast title: <input type="text" name="podcast_title" value="Empty Podcast" placeholder="Podcast name">
+            Podcast URI: <input type="text" name="podcast_uri" value="uri" placeholder="URI">
+            <br/>
+            Last Updated: <input type="text" name="podcast_last_updated" value="2019-01-01" placeholder="2019-1-1">
+            Description: <input type="text" name="description" value="Empty Description" placeholder="Description">
+            <br/>
+            Genre: <input type="text" name="genre" value="Empty Genre" placeholder="Podcast Genre">
+            <br/>
+            <button class="flat" type="submit">Add</button>
+            <br/>
+            <hr/>
+            <hr/>
+            <hr/>
+
+        </form>
+        <br/>
+        <div>
+
+    </div>
+</div>
+{% include 'bottom.html'%}

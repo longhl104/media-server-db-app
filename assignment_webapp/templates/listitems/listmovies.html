@@ -1,0 +1,111 @@
+{% include 'top.html' %}
+<style>
+.click:hover {
+  cursor: pointer;
+  background: #efefef;
+  color: SlateBlue;
+}
+</style>
+
+
+<script src="{{ url_for('static', filename='scripts/jquery.js') }}"></script>
+<script type="application/javascript">
+
+    // n is respective to columns
+    // 0:movie_id 1:movie_title 2:release_year 3: metadata_count
+    // which provies a variation of quick sort
+    function swap(items, leftIndex, rightIndex){
+        // var temp = items[leftIndex];
+        // items[leftIndex] = items[rightIndex];
+        // items[rightIndex] = temp;
+        items[leftIndex].parentNode.insertBefore(items[rightIndex], items[leftIndex]);
+        return items;
+    }
+    function lessthan(x, y, n) {
+      if (n == 1)
+        return (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase());
+      else
+        return (Number(x.innerHTML) < Number(y.innerHTML));
+    }
+    function partition(items, left, right, col) {
+        var pivot   = items[Math.floor((right + left) / 2)], //middle element
+            i       = left, //left pointer
+            j       = right; //right pointer
+        while (i <= j) {
+            while (lessthan(items[i].getElementsByTagName("TD")[col], pivot.getElementsByTagName("TD")[col], col)) {
+                i++;
+            }
+            while (lessthan(pivot.getElementsByTagName("TD")[col], items[j].getElementsByTagName("TD")[col], col)) {
+                j--;
+            }
+            if (i <= j) {
+                items = swap(items, i, j); //swapping two elements
+                i++;
+                j--;
+            }
+        }
+        return i;
+    }
+    function quickSort(items, left, right, col) {
+        // console.log(left);
+        // console.log(right);
+        var index;
+        if (items.length > 1) {
+            index = partition(items, left, right, col); //index returned from partition
+            if (left < index - 1) { //more elements on the left side of the pivot
+                quickSort(items, left, index - 1, col);
+            }
+            if (index < right) { //more elements on the right side of the pivot
+                quickSort(items, index, right, col);
+            }
+        }
+        // return items;
+    }
+    function sortTable(n)
+    {
+        //Get the select select table and store in a variable
+        var table = document.getElementById("MyTable");
+        var rows, switching, x, y,switchcount;
+        rows = table.rows;
+        quickSort(rows, 1, rows.length - 1, n);
+      }
+    </script>
+
+<div class="content">
+    <div class="container details">
+        <h2 class="title"> All Movies</h2>
+        <div> click column headings to order by ascending</div>
+        <hr/>
+        {% if session.logged_in %}
+        <a class="pure-button" href="{{ url_for('add_movie')}}">Add Movie</a>
+        {% endif %}
+        <div>
+        <!-- All Movies -->
+            <table class="styled" id = "MyTable">
+                <thead>
+                    <tr>
+                        <th class="click" onclick = "sortTable(0)">Movie ID</th>
+                        <th class="click" onclick = "sortTable(1)">Movie Name</th>
+                        <th class="click" onclick = "sortTable(2)">Movie Release Year</th>
+                        <th class="click" onclick = "sortTable(3)">Movie Metadata Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for instance in allmovies %}
+                        <!-- Each row is a link to each individual movie page -->
+                        <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                            <td style="text-align: center">{{ instance.movie_id }}</td>
+                            <td>{{instance.movie_title}}</td>
+                            <td>{{instance.release_year}}</td>
+                            <td>{{instance.count}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% include 'bottom.html'%}
